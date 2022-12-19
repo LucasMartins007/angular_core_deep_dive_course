@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { COURSES } from 'src/bd-data';
 import { CourseCardComponent } from './course-card/course-card.component';
+import { HighlightedDirective } from './directives/highlighted.directive';
 import { Course } from './model/course';
 
 @Component({
@@ -12,25 +13,29 @@ export class AppComponent implements AfterViewInit {
 
   courses = COURSES;
 
-  @ViewChildren(CourseCardComponent, {read: ElementRef})
+  @ViewChildren(CourseCardComponent, { read: ElementRef })
   cards?: QueryList<CourseCardComponent>;
+
+  @ViewChild(HighlightedDirective)
+  highlighted?: HighlightedDirective;
 
   constructor() { }
 
   ngAfterViewInit(): void {
-    // console.log(this.cards);
-    // this.cards?.changes.subscribe(
-    //   cards => console.log(cards)
-    // );
+    console.log(this.highlighted);
   }
 
   onCourseSelected() {
-    
+
+  }
+
+  onToogle(isHighLighted: boolean) {
+    console.log(isHighLighted);
   }
 
   onCoursesEdited(): void {
     this.courses.push(
-      { 
+      {
         id: 55,
         description: "angular core deep dive",
         iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-core-in-depth-small.png',

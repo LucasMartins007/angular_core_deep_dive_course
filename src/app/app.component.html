@@ -3,19 +3,17 @@
 </div>
 <div class="courses" *ngIf="courses[0] as course">
 
+  <div highlighted #highlighter="hl" (toogleHighlight)="onToogle($event)">
 
-  <ng-template #blankImage let-courseName="description">
-    <p class="warn"> {{ courseName }} has no image yet.</p>
-    <img src="/assets/empty-image.png">
-  </ng-template>
+    <app-course-card [course]="course">
+      <app-course-image [src]="course.iconUrl"></app-course-image>
 
-  <app-course-card #cardRef [course]="course" [noImageTpl]="blankImage" (courseSelected)="onCourseSelected()">
-    <app-course-image [src]="course.iconUrl"></app-course-image>
-
-    <div class="course-description">
-      {{ course.longDescription }}
-    </div>
-  </app-course-card>
+      <div class="course-description" (dblclick)="highlighter.toogle()">
+        {{ course.longDescription }} 
+      </div>
+    </app-course-card>
+  </div>
   <br>
   <br>
+
 </div>

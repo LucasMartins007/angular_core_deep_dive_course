@@ -1,5 +1,5 @@
 <ng-container *ngIf="course">
-    <div class="course-card" [ngClass]="cardClasses()" #container>
+    <div class="course-card" [ngClass]="cardClasses()">
 
         <div class="course-title">
             {{ course.description | uppercase }}
@@ -9,7 +9,10 @@
             <ng-container *ngTemplateOutlet="noImageTpl; context: { description: course.description };">
             </ng-container>
         </ng-template>
+
         <ng-content select="app-course-image" *ngIf="course.iconUrl; else noImage"></ng-content>
+
+        <ng-content></ng-content>
 
         <ng-container [ngSwitch]="course.category">
             <div class="course-category">
