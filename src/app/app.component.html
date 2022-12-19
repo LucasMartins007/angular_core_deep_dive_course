@@ -1,15 +1,17 @@
 <div class="top-menu">
   <img class="logo" src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
 </div>
-<div class="courses" *ngIf="courses[0] as course">
 
+<div class="courses" *ngIf="courses[0] as course">
   <div highlighted #highlighter="hl" (toogleHighlight)="onToogle($event)">
 
     <app-course-card [course]="course">
-      <app-course-image [src]="course.iconUrl"></app-course-image>
+      <app-course-image [src]="course.iconUrl" *ngxUnless="!course.iconUrl">
+
+      </app-course-image>
 
       <div class="course-description" (dblclick)="highlighter.toogle()">
-        {{ course.longDescription }} 
+        {{ course.longDescription }}
       </div>
     </app-course-card>
   </div>
