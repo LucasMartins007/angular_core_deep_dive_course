@@ -1,46 +1,34 @@
-<ng-container *ngIf="course">
-    <div class="course-card" [ngClass]="cardClasses()">
+<div class="course-card" *ngIf="course" #container>
 
-        <div class="course-title">
-            {{ course.description | uppercase }}
-        </div>
+  <div class="course-title">
+    {{ cardIndex || '' + ' ' + course.description }}
+  </div>
 
-        <ng-template #noImage>
-            <ng-container *ngTemplateOutlet="noImageTpl; context: { description: course.description };">
-            </ng-container>
-        </ng-template>
+  <ng-content select="course-image"
+              *ngIf="course.iconUrl"></ng-content>
 
-        <ng-content select="app-course-image" *ngIf="course.iconUrl; else noImage"></ng-content>
+  <div class="course-description">
 
-        <ng-content></ng-content>
+    Edit Title: <input #courseTitle [value]="course.description">
 
-        <ng-container [ngSwitch]="course.category">
-            <div class="course-category">
-                <div class="category" *ngSwitchCase="'BEGINNER'">
-                    Beginner
-                </div>
+  </div>
 
-                <div class="category" *ngSwitchCase="'INTERMEDIATE'">
-                    Intermediate
-                </div>
+  <div class="course-category" [ngSwitch]="course.category">
 
-                <div class="category" *ngSwitchCase="'ADVANCED'">
-                    Avanced
-                </div>
+    <div class="category" *ngSwitchCase="'BEGINNER'">Beginner</div>
 
-                <div class="category" *ngSwitchDefault>
-                    All levels
-                </div>
-            </div>
-        </ng-container>
+    <div class="category" *ngSwitchCase="'INTERMEDIATE'">Intermediate</div>
+
+    <div class="category" *ngSwitchCase="'ADVANCED'">Advanced</div>
+
+  </div>
+
+  <button (click)="onSaveClicked(courseTitle.value)">Save Course</button>
+
+</div>
 
 
-        <button (click)="onCourseViewed()">View Course</button>
-        <br><br>
-    </div>
 
-    <ng-template #noImage>
-        <p>No image is avaible</p>
-    </ng-template>
 
-</ng-container>
+
+

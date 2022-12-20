@@ -1,60 +1,52 @@
-import { Component, EventEmitter, Input, OnInit, AfterViewInit, Output, TemplateRef, ContentChild, ElementRef, ViewEncapsulation } from '@angular/core';
-import { CourseImageComponent } from '../course-image/course-image.component';
-import { Course } from '../model/course';
+import {
+    AfterContentInit,
+    AfterViewInit,
+    Component,
+    ContentChildren,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    QueryList,
+    ViewEncapsulation
+} from '@angular/core';
+import {Course} from '../model/course';
+import {CourseImageComponent} from '../course-image/course-image.component';
 
 @Component({
-  selector: 'app-course-card',
-  templateUrl: './course-card.component.html',
-  styleUrls: ['./course-card.component.css'],
-  encapsulation: ViewEncapsulation.Emulated
+    selector: 'course-card',
+    templateUrl: './course-card.component.html',
+    styleUrls: ['./course-card.component.css']
 })
-export class CourseCardComponent implements OnInit, AfterViewInit {
+export class CourseCardComponent implements OnInit {
 
-  @Input()
-  course!: Course;
+    @Input()
+    course: Course;
 
-  @Input()
-  cardIndex!: number;
+    @Input()
+    cardIndex: number;
 
-  @Input()
-  noImageTpl!: TemplateRef<any>;
+    @Output('courseChanged')
+    courseEmitter = new EventEmitter<Course>();
 
-  @Output('courseSelected')
-  courseEmmiter = new EventEmitter<Course>();
 
-  @ContentChild(CourseImageComponent, {read: ElementRef})
-  image: any;
+    constructor() {
 
-  constructor() { };
-
-  ngOnInit(): void {
-
-  }
-
-  ngAfterViewInit(): void {
-      console.log(this.image);
-  }
-
-  onCourseViewed() {
-    this.courseEmmiter.emit(this.course);
-  }
-
-  isImageVisible(): boolean {
-    return this.course.iconUrl != null;
-  }
-
-  cardClasses() {
-    if (this.course.category == 'BEGINNER') {
-      return 'beginner';
     }
 
-    return {
-      'beginner': this.course.category == 'BEGINNER'
-    };
-  }
+    ngOnInit() {
 
-  cardStyles() {
-    return {'background-image': 'url('+this.course.iconUrl+')'};
-  }
+    }
+
+
+    onSaveClicked(description:string) {
+
+        this.courseEmitter.emit({...this.course, description});
+
+    }
+
+
+
 
 }

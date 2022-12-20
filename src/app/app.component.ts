@@ -1,48 +1,34 @@
-import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { COURSES } from 'src/bd-data';
-import { CourseCardComponent } from './course-card/course-card.component';
-import { HighlightedDirective } from './directives/highlighted.directive';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Course } from './model/course';
 
 @Component({
-  selector: 'app-root-test',
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
 
-  courses = COURSES;
+  courses$: Observable<Course[]>;
 
-  @ViewChildren(CourseCardComponent, { read: ElementRef })
-  cards?: QueryList<CourseCardComponent>;
+  courses;
 
-  @ViewChild(HighlightedDirective)
-  highlighted?: HighlightedDirective;
-
-  constructor() { }
-
-  ngAfterViewInit(): void {
-    console.log(this.highlighted);
-  }
-
-  onCourseSelected() {
+  constructor(private http: HttpClient) {
 
   }
 
-  onToogle(isHighLighted: boolean) {
-    console.log(isHighLighted);
+  ngOnInit() {
+    const params = new HttpParams()
+      .set("page", "1")
+      .set("pageSize", "10");
+
+    this.courses$ = this.http.get<Course[]>('/api/courses', { params });
+
+    // this.course = this.http.get('/api/courses', { params })
+    //   .subscribe(courses => this.courses = courses);
   }
 
-  onCoursesEdited(): void {
-    this.courses.push(
-      {
-        id: 55,
-        description: "angular core deep dive",
-        iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-core-in-depth-small.png',
-        longDescription: "A detailed walk-through of the most important part of Angular - the Core and Common modules",
-        category: 'INTERMEDIATE',
-        lessonsCount: 10
-      }
-    );
-  }
+
+
 }
