@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, AfterViewInit, Output, TemplateRef, ContentChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, AfterViewInit, Output, TemplateRef, ContentChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { CourseImageComponent } from '../course-image/course-image.component';
 import { Course } from '../model/course';
 
 @Component({
   selector: 'app-course-card',
   templateUrl: './course-card.component.html',
-  styleUrls: ['./course-card.component.css']
+  styleUrls: ['./course-card.component.css'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class CourseCardComponent implements OnInit, AfterViewInit {
 
