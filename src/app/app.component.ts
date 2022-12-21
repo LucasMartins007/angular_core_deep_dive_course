@@ -1,7 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Course } from './model/course';
+import { CoursesService } from './services/courses.service';
 
 @Component({
   selector: 'app-root',
@@ -14,19 +14,19 @@ export class AppComponent implements OnInit {
 
   courses;
 
-  constructor(private http: HttpClient) {
+  constructor(private courseService: CoursesService) {
 
   }
 
   ngOnInit() {
-    const params = new HttpParams()
-      .set("page", "1")
-      .set("pageSize", "10");
+    this.courses$ = this.courseService.loadCourses();
+  }
 
-    this.courses$ = this.http.get<Course[]>('/api/courses', { params });
+  save(course: Course) {
+   
 
-    // this.course = this.http.get('/api/courses', { params })
-    //   .subscribe(courses => this.courses = courses);
+    this.courseService.saveCourse(course)
+      .subscribe(() => console.log('Course saved'));
   }
 
 
